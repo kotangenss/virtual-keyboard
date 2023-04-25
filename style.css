@@ -63,6 +63,11 @@ textarea:focus {
   transition: all 0.4s ease;
 }
 
+.key:active,
+.active {
+  background: url('./assets/noise.png') #101010;
+}
+
 .key__second-char {
   position: absolute;
   top: 0px;

@@ -6,6 +6,7 @@ let [rowFirst, rowSecond, rowThird, rowFourth, rowFifth] = keys;
 
 createPage();
 createKeyboard();
+changeKeyСharacteristics(); 
 
 function createPage() {
   const body = document.querySelector('body');
@@ -23,6 +24,7 @@ function createPage() {
   const textArea = document.createElement('textarea');
   textArea.classList.add('input__text');
   bodyContainer.appendChild(textArea);
+	document.querySelector('textarea').focus();
 
   const keyboardWrapper = document.createElement('div');
   keyboardWrapper.classList.add('body__keyboard', 'keyboard');
@@ -74,6 +76,7 @@ function createRowButtons(arrayButtons) {
 		if (span != undefined) {
 			key.appendChild(span);
 		}
+		key.dataset.code = el.code;
 		rowKeys.appendChild(key);
 
 	})
@@ -106,22 +109,45 @@ function changeKeyСharacteristics() {
 		} else if (el.textContent === 'Ctrl') {
 			el.style.width = '90px';
 		} else if (el.textContent === '⇧') {
-			el.style.background = '#fcb42a';
-			el.style.color = '#363636';
+			// el.style.background = '#fcb42a';
+			// el.style.color = '#363636';
 			el.style.fontSize = '20px';
 		} else if (el.textContent === '⇩') {
-			el.style.background = '#fcb42a';
-			el.style.color = '#363636';
+			// el.style.background = '#fcb42a';
+			// el.style.color = '#363636';
 			el.style.fontSize = '20px';
 		} else if (el.textContent === '⇦') {
-			el.style.background = '#fcb42a';
-			el.style.color = '#363636';
+			// el.style.background = '#fcb42a';
+			// el.style.color = '#363636';
 			el.style.fontSize = '20px';
 		} else if (el.textContent === '⇨') {
-			el.style.background = '#fcb42a';
-			el.style.color = '#363636';
+			// el.style.background = '#fcb42a';
+			// el.style.color = '#363636';
 			el.style.fontSize = '20px';
 		}
 	})
 }
-changeKeyСharacteristics() 
+
+//Нажатие клавиши на физической клавиатуре выделяет клавишу на виртуальной клавиатуре
+
+document.body.addEventListener('keydown' , function(elem) {
+	let arrayObjects = keys.flat();
+	let arrayKeys = [...document.querySelectorAll('.key')]
+
+	arrayObjects.forEach(el => {
+		if (elem.code === el.code) {
+			let keyCode = el.code;
+
+			arrayKeys.forEach(e => {
+				console.log()
+				if (e.dataset.code == keyCode) {
+					e.classList.add('active');
+					setTimeout(() => {
+						e.classList.remove('active');
+					}, 150)
+					console.log(e)
+				}
+			})
+		}
+	})
+})
