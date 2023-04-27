@@ -15,10 +15,12 @@
 			"code": "Digit1",
 			"type": "Symbol",
 			"shift": {
-				"en": "!"
+				"en": "!",
+				"ru": "!"
 			},
 			"default": {
-				"en": "1"
+				"en": "1",
+				"ru": "1"
 			}
 		},
 		{
@@ -29,7 +31,8 @@
 				"ru": "\""
 			},
 			"default": {
-				"en": "2"
+				"en": "2",
+				"ru": "2"
 			}
 		},
 		{
@@ -40,7 +43,8 @@
 				"ru": "№"
 			},
 			"default": {
-				"en": "3"
+				"en": "3",
+				"ru": "3"
 			}
 		},
 		{
@@ -48,20 +52,23 @@
 			"type": "Symbol",
 			"shift": {
 				"en": "$",
-				"ru": ";"
+				"ru": "%"
 			},
 			"default": {
-				"en": "4"
+				"en": "4",
+				"ru": "4"
 			}
 		},
 		{
 			"code": "Digit5",
 			"type": "Symbol",
 			"shift": {
-				"en": "%"
+				"en": "%",
+				"ru": ":"
 			},
 			"default": {
-				"en": "5"
+				"en": "5",
+				"ru": "5"
 			}
 		},
 		{
@@ -69,10 +76,11 @@
 			"type": "Symbol",
 			"shift": {
 				"en": "^",
-				"ru": ":"
+				"ru": ","
 			},
 			"default": {
-				"en": "6"
+				"en": "6",
+				"ru": "6"
 			}
 		},
 		{
@@ -80,60 +88,71 @@
 			"type": "Symbol",
 			"shift": {
 				"en": "&",
-				"ru": "?"
+				"ru": "."
 			},
 			"default": {
-				"en": "7"
+				"en": "7",
+				"ru": "7"
 			}
 		},
 		{
 			"code": "Digit8",
 			"type": "Symbol",
 			"shift": {
-				"en": "*"
+				"en": "*",
+				"ru": ";"
 			},
 			"default": {
-				"en": "8"
+				"en": "8",
+				"ru": "8"
 			}
 		},
 		{
 			"code": "Digit9",
 			"type": "Symbol",
 			"shift": {
-				"en": "("
+				"en": "(",
+				"ru": "("
 			},
 			"default": {
-				"en": "9"
+				"en": "9",
+				"ru": "9"
 			}
 		},
 		{
 			"code": "Digit0",
 			"type": "Symbol",
 			"shift": {
-				"en": ")"
+				"en": ")",
+				"ru": ")"
 			},
 			"default": {
-				"en": "0"
+				"en": "0",
+				"ru": "0"
 			}
 		},
 		{
 			"code": "Minus",
 			"type": "Symbol",
 			"shift": {
-				"en": "_"
+				"en": "_",
+				"ru": "_"
 			},
 			"default": {
-				"en": "-"
+				"en": "-",
+				"ru": "-"
 			}
 		},
 		{
 			"code": "Equal",
 			"type": "Symbol",
 			"shift": {
-				"en": "+"
+				"en": "+",
+				"ru": "+"
 			},
 			"default": {
-				"en": "="
+				"en": "=",
+				"ru": "="
 			}
 		},
 		{
