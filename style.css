@@ -17,6 +17,7 @@
   resize: none;
   font-family: Ysabeau, sans-serif;
   font-size: 30px;
+  font-feature-settings: "tnum" on, "lnum" on;
   border: 3px solid #636363;
   border-radius: 5px;
   padding: 10px 25px;

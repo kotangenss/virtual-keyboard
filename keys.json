@@ -4,11 +4,12 @@
 			"code": "Backquote",
 			"type": "Symbol",
 			"shift": {
-				"en": "~"
+				"en": "±",
+				"ru": "<"
 			},
 			"default": {
-				"en": "`",
-				"ru": "ё"
+				"en": "§",
+				"ru": ">"
 			}
 		},
 		{
@@ -278,7 +279,7 @@
 			},
 			"default": {
 				"en": "\\",
-				"ru": "\\"
+				"ru": "ё"
 			}
 		},
 		{

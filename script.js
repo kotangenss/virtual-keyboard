@@ -5,9 +5,10 @@ import keys from '/keys.json' assert { type: "json" };
 let [rowFirst, rowSecond, rowThird, rowFourth, rowFifth] = keys;
 let lang = 'ru';
 let arrayObjects = keys.flat();
-let isActivatedCaps = false;
-let isActivatedShift = false;
-let isActivatedAlt = false;
+let isActiveCaps = false;
+let isActiveShift = false;
+let isActiveAlt = false;
+let isActiveCtrlLeft = false;
 
 let arrayRus = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ь', 'ы', 'э', 'ю', 'я'];
 let arrayEn = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -20,8 +21,7 @@ createKeyboard();
 
 let textArea = document.querySelector('textarea');
 
-//
-
+// localeStorage
 function setLocalStorage() {
 	localStorage.setItem('lang', lang);
 }
@@ -89,12 +89,18 @@ function createRowButtons(arrayButtons) {
 		//щелчки мышью по кнопкам виртуальной клавиатуры или нажатия кнопок на физической клавиатуре вводят символы в поле ввода (текстовое поле)
 		key.addEventListener('click', function () {
 			let code = el.code;
+
 			if (code == 'CapsLock') {
-				changeCase()
+				isActiveCaps = !isActiveCaps;
+				setCase()
 			} else {
 				arrayObjects.forEach(e => {
 					if (code === e.code) {
-						textArea.value += e.default[lang];
+						if (isActiveCaps) {
+							textArea.value += e.default[lang].toUpperCase();
+						} else {
+							textArea.value += e.default[lang];
+						}
 						textArea.focus();
 					}
 				})
@@ -121,7 +127,7 @@ function createKeyboard() {
 
 	const descriptionLanguage = document.createElement('p');
 	descriptionLanguage.classList.add('description__language');
-	descriptionLanguage.textContent = 'Для смены языка нажмите левый Shift + левый Alt (Option)';
+	descriptionLanguage.textContent = 'Для смены языка нажмите левый Ctrl + левый Alt (Option)';
 	description.appendChild(descriptionLanguage);
 
 	body.appendChild(description);
@@ -132,6 +138,7 @@ function createKeyboard() {
 	createRowButtons(rowFourth);
 	createRowButtons(rowFifth);
 	changeKeyСharacteristics();
+	setCase();
 }
 
 function changeKeyСharacteristics() {
@@ -193,46 +200,81 @@ function showPressedButton(elem) {
 }
 
 // Изменение размера букв
-function changeCase() {
-	isActivatedCaps = !isActivatedCaps;
+function setCase() {
 	let arrayKeys = [...document.querySelectorAll('.key')]
 
 	arrayKeys.forEach(el => {
 		if (arrayRus.includes(el.textContent.toLowerCase()) || arrayEn.includes(el.textContent.toLowerCase())) {
-			el.textContent = isActivatedCaps ? el.textContent.toUpperCase() : el.textContent.toLowerCase();
+			el.textContent = isActiveCaps || isActiveShift ? el.textContent.toUpperCase() : el.textContent.toLowerCase();
 		}
 	})
+}
+// Размер символа в зависимости от caps или shift
+function convertSymbol(e) {
+	e.preventDefault();
+	let symbol = arrayObjects.find(el => el.code == e.code).default[lang];
+
+	if (isActiveCaps || isActiveShift) {
+		textArea.value += symbol.toUpperCase();
+	} else {
+		textArea.value += symbol.toLowerCase();
+	}
 }
 
 document.body.focus();
 
 document.addEventListener("keyup", (e) => {
-	isActivatedShift = false;
-	isActivatedAlt = false;
+	if (["ShiftRight", "ShiftLeft"].includes(e.code)) {
+		isActiveShift = false;
+	}
+	isActiveCtrlLeft = false;
+	isActiveAlt = false;
 	showPressedButton(e)
 
 	if (e.code == 'CapsLock') {
-		changeCase()
+		isActiveCaps = !isActiveCaps;
 	}
+
+	setCase();
 });
 
 document.addEventListener("keydown", (e) => {
 	showPressedButton(e)
 
-	if (e.code == 'ShiftLeft') {
-		isActivatedShift = true;
+	if (["ShiftRight", "ShiftLeft"].includes(e.code)) {
+		isActiveShift = true;
 	} else if (e.code == 'AltLeft') {
-		isActivatedAlt = true;
+		isActiveAlt = true;
 	} else if (e.code === 'CapsLock') {
-		changeCase()
+		isActiveCaps = !isActiveCaps;
+	} else if (e.code === "ControlLeft") {
+		isActiveCtrlLeft = true;
+	} else if (e.code === 'Tab') {
+		e.preventDefault();
+		textArea.value += '    '
+	}
+
+	setCase();
+
+	if (["Backquote", "BracketLeft", "BracketRight", "Semicolon", "Quote", "Backslash", "Comma", "Period", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Slash"].includes(e.code)) {
+		e.preventDefault();
+		if (isActiveShift) {
+			textArea.value += arrayObjects.find(el => el.code == e.code).shift[lang];
+		} else {
+			textArea.value += arrayObjects.find(el => el.code == e.code).default[lang];
+		}
 	}
 
 	//смена языка
-	if (isActivatedShift && isActivatedAlt) {
+	if (isActiveCtrlLeft && isActiveAlt) {
 		lang = lang === 'en' ? 'ru' : 'en';
 		document.querySelector('.keyboard').remove();
 		document.querySelector('.description').remove();
 		createKeyboard();
+	}
+
+	if (arrayRus.includes(e.key.toLowerCase()) || arrayEn.includes(e.key.toLowerCase())) {
+		convertSymbol(e);
 	}
 });
 
