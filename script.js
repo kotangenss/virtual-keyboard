@@ -215,9 +215,9 @@ function convertSymbol(e) {
 	let symbol = arrayObjects.find(el => el.code == e.code).default[lang];
 
 	if (isActiveCaps || isActiveShift) {
-		textArea.value += symbol.toUpperCase();
+		return symbol.toUpperCase();
 	} else {
-		textArea.value += symbol.toLowerCase();
+		return symbol.toLowerCase();
 	}
 }
 
@@ -239,6 +239,7 @@ document.addEventListener("keyup", (e) => {
 });
 
 document.addEventListener("keydown", (e) => {
+	let newSymbol = '';
 	showPressedButton(e)
 
 	if (["ShiftRight", "ShiftLeft"].includes(e.code)) {
@@ -251,7 +252,7 @@ document.addEventListener("keydown", (e) => {
 		isActiveCtrlLeft = true;
 	} else if (e.code === 'Tab') {
 		e.preventDefault();
-		textArea.value += '    '
+		newSymbol = '    ';
 	}
 
 	setCase();
@@ -259,9 +260,9 @@ document.addEventListener("keydown", (e) => {
 	if (["Backquote", "BracketLeft", "BracketRight", "Semicolon", "Quote", "Backslash", "Comma", "Period", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Slash"].includes(e.code)) {
 		e.preventDefault();
 		if (isActiveShift) {
-			textArea.value += arrayObjects.find(el => el.code == e.code).shift[lang];
+			newSymbol = arrayObjects.find(el => el.code == e.code).shift[lang];
 		} else {
-			textArea.value += arrayObjects.find(el => el.code == e.code).default[lang];
+			newSymbol = arrayObjects.find(el => el.code == e.code).default[lang];
 		}
 	}
 
@@ -274,7 +275,16 @@ document.addEventListener("keydown", (e) => {
 	}
 
 	if (arrayRus.includes(e.key.toLowerCase()) || arrayEn.includes(e.key.toLowerCase())) {
-		convertSymbol(e);
+		newSymbol = convertSymbol(e);
+	}
+
+if (newSymbol != '') {
+		let start = textArea.selectionStart;
+		let end = textArea.selectionEnd;
+		textArea.setRangeText(newSymbol, start, end)
+		textArea.focus();
+		textArea.selectionStart = start + newSymbol.length;
+		textArea.selectionEnd = end + newSymbol.length;
 	}
 });
 
