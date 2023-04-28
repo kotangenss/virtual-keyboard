@@ -274,8 +274,7 @@
 			"code": "Backslash",
 			"type": "Symbol",
 			"shift": {
-				"en": "|",
-				"ru": "/"
+				"en": "|"
 			},
 			"default": {
 				"en": "\\",

@@ -35,6 +35,7 @@ textarea:focus {
   color: #fcb42a;
   text-align: center;
   margin-top: 0px;
+  user-select: none;
 }
 
 .keyboard {
@@ -52,21 +53,28 @@ textarea:focus {
   font-feature-settings: "tnum" on, "lnum" on;
   font-size: 24px;
   border-radius: 5px;
+  border: 2px solid #393939;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
   color: white;
   background: #363636;
+  user-select: none;
 }
 
 
 .key:hover {
   background: #101010;
-  transition: all 0.4s ease;
+  border: 2px solid #101010;
+  transition: all 0.3s ease;
 }
 
 .key:active,
 .active {
   background: url('./assets/noise.png') #101010;
+  border: 3px solid #636363;
+  border-radius: 7px;
+  font-size: 22px;
+  user-select: none;
 }
 
 .key__second-char {
@@ -77,6 +85,7 @@ textarea:focus {
   font-feature-settings: "tnum" on, "lnum" on;
   font-weight: 500;
   color: #fcb42a;
+  user-select: none;
 }
 
 .keyboard__row {
@@ -105,4 +114,5 @@ textarea:focus {
   text-align: center;
   color: #d5d5d5;
   margin: 3px;
+  user-select: none;
 }
