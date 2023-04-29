@@ -53,28 +53,28 @@ textarea:focus {
   font-feature-settings: "tnum" on, "lnum" on;
   font-size: 24px;
   border-radius: 5px;
-  border: 2px solid #393939;
+  border: none;
   cursor: pointer;
   transition: all 0.3s ease;
   color: white;
   background: #363636;
   user-select: none;
+  filter: drop-shadow(1.5px 1.5px 0px #242424);
 }
 
 
 .key:hover {
   background: #101010;
-  border: 2px solid #101010;
   transition: all 0.3s ease;
+  filter: drop-shadow(0px 0px 0px #242424);
 }
 
 .key:active,
 .active {
   background: url('./assets/noise.png') #101010;
-  border: 3px solid #636363;
-  border-radius: 7px;
-  font-size: 22px;
   user-select: none;
+  scale: 0.93;
+  filter: drop-shadow(1.5px 1.5px 0px #636363);
 }
 
 .key__second-char {
@@ -97,7 +97,7 @@ textarea:focus {
 .row {
   display: flex;
   justify-content: space-between;
-  height: 65px;
+  height: 67px;
 }
 
 .description {
