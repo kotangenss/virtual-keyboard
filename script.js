@@ -19,7 +19,7 @@ window.addEventListener('beforeunload', () => {
   setLocalStorage(lang);
 });
 
-if (getLocalStorage) {
+if (getLocalStorage()) {
   lang = getLocalStorage();
 }
 
