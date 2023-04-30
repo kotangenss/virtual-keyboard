@@ -1,4 +1,4 @@
-import keys from '/keys.json' assert { type: 'json' };
+import keys from './keys.json' assert { type: 'json' };
 import { setLocalStorage, getLocalStorage } from './modules/localStorage.js';
 
 let lang = 'ru';
