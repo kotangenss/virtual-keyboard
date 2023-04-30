@@ -283,106 +283,112 @@ function getCorrectSymbol(e) {
 }
 
 document.addEventListener('keyup', (e) => {
-  document.getElementById(e.code).classList.remove('active');
+  if (document.getElementById(e.code)) {
 
-  if (e.code === 'ShiftLeft') {
-    isActiveShiftLeft = false;
-  } else if (e.code === 'ShiftRight') {
-    isActiveShiftRight = false;
-  } else if (e.code == 'AltLeft') {
-    isActiveAltLeft = false;
-  } else if (e.code == 'AltRight') {
-    isActiveAltRight = false;
-  } else if (e.code === 'ControlLeft') {
-    isActiveCtrlLeft = false;
-  } else if (e.code === 'MetaLeft') {
-    isActiveCmd = false;
-  } else if (isActiveCaps && e.code === 'CapsLock') {
-    isActiveCaps = !isActiveCaps;
+    document.getElementById(e.code).classList.remove('active');
+
+    if (e.code === 'ShiftLeft') {
+      isActiveShiftLeft = false;
+    } else if (e.code === 'ShiftRight') {
+      isActiveShiftRight = false;
+    } else if (e.code == 'AltLeft') {
+      isActiveAltLeft = false;
+    } else if (e.code == 'AltRight') {
+      isActiveAltRight = false;
+    } else if (e.code === 'ControlLeft') {
+      isActiveCtrlLeft = false;
+    } else if (e.code === 'MetaLeft') {
+      isActiveCmd = false;
+    } else if (isActiveCaps && e.code === 'CapsLock') {
+      isActiveCaps = !isActiveCaps;
+    }
+
+    setCase();
   }
-
-  setCase();
 });
 
 document.addEventListener('keydown', (e) => {
-  let newSymbol = '';
+  if (document.getElementById(e.code)) {
 
-  if (e.code == 'ShiftLeft') {
-    isActiveShiftLeft = true;
-  } else if (e.code == 'ShiftRight') {
-    isActiveShiftRight = true;
-  } else if (e.code == 'AltLeft') {
-    isActiveAltLeft = true;
-  } else if (e.code == 'AltRight') {
-    isActiveAltRight = true;
-  } else if (e.code === 'CapsLock') {
-    isActiveCaps = !isActiveCaps;
-  } else if (e.code === 'ControlLeft') {
-    isActiveCtrlLeft = true;
-  } else if (e.code === 'Tab') {
-    e.preventDefault();
-    newSymbol = '    ';
-  } else if (e.code === 'MetaLeft') {
-    isActiveCmd = true;
-  }
+    let newSymbol = '';
 
-  setCase();
-
-  if (['Backquote', 'BracketLeft', 'BracketRight', 'Semicolon', 'Quote', 'Backslash', 'Comma', 'Period', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Slash', 'Minus', 'Equal'].includes(e.code)) {
-    e.preventDefault();
-    if (isActiveShiftRight || isActiveShiftLeft) {
-      let symbol = ARRAY_OBJECTS.find(el => el.code == e.code)
-      if (symbol.shift[lang] != undefined) {
-        newSymbol = symbol.shift[lang];
-      } else {
-        newSymbol = symbol.default[lang].toUpperCase();
-      }
-    } else {
-      newSymbol = ARRAY_OBJECTS.find(el => el.code == e.code).default[lang];
+    if (e.code == 'ShiftLeft') {
+      isActiveShiftLeft = true;
+    } else if (e.code == 'ShiftRight') {
+      isActiveShiftRight = true;
+    } else if (e.code == 'AltLeft') {
+      isActiveAltLeft = true;
+    } else if (e.code == 'AltRight') {
+      isActiveAltRight = true;
+    } else if (e.code === 'CapsLock') {
+      isActiveCaps = !isActiveCaps;
+    } else if (e.code === 'ControlLeft') {
+      isActiveCtrlLeft = true;
+    } else if (e.code === 'Tab') {
+      e.preventDefault();
+      newSymbol = '    ';
+    } else if (e.code === 'MetaLeft') {
+      isActiveCmd = true;
     }
-  }
 
-  //смена языка
-  if (isActiveCtrlLeft && isActiveAltLeft) {
-    lang = lang === 'en' ? 'ru' : 'en';
-    document.querySelector('.keyboard').remove();
-    document.querySelector('.description').remove();
-    createKeyboard();
-  }
+    setCase();
 
-  if (ARRAY_RU.includes(e.key.toLowerCase()) || ARRAY_EN.includes(e.key.toLowerCase())) {
-    newSymbol = getCorrectSymbol(e);
-  }
+    if (['Backquote', 'BracketLeft', 'BracketRight', 'Semicolon', 'Quote', 'Backslash', 'Comma', 'Period', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Slash', 'Minus', 'Equal'].includes(e.code)) {
+      e.preventDefault();
+      if (isActiveShiftRight || isActiveShiftLeft) {
+        let symbol = ARRAY_OBJECTS.find(el => el.code == e.code)
+        if (symbol.shift[lang] != undefined) {
+          newSymbol = symbol.shift[lang];
+        } else {
+          newSymbol = symbol.default[lang].toUpperCase();
+        }
+      } else {
+        newSymbol = ARRAY_OBJECTS.find(el => el.code == e.code).default[lang];
+      }
+    }
 
-  if (newSymbol != '') {
-    let start = TEXT_AREA.selectionStart;
-    let end = TEXT_AREA.selectionEnd;
-    TEXT_AREA.setRangeText(newSymbol, start, end)
-    TEXT_AREA.focus();
-    TEXT_AREA.selectionStart = start + newSymbol.length;
-    TEXT_AREA.selectionEnd = end + newSymbol.length;
-  }
+    //смена языка
+    if (isActiveCtrlLeft && isActiveAltLeft) {
+      lang = lang === 'en' ? 'ru' : 'en';
+      document.querySelector('.keyboard').remove();
+      document.querySelector('.description').remove();
+      createKeyboard();
+    }
 
-  document.getElementById(e.code).classList.toggle('active');
-  if (isActiveCtrlLeft) {
-    document.getElementById('ControlLeft').classList.add('active');
-  }
-  if (isActiveAltLeft) {
-    document.getElementById('AltLeft').classList.add('active');
-  }
-  if (isActiveShiftLeft) {
-    document.getElementById('ShiftLeft').classList.add('active');
-  }
-  if (isActiveCmd) {
-    document.getElementById('MetaLeft').classList.add('active');
-  }
-  if (isActiveCaps) {
-    document.getElementById('CapsLock').classList.add('active');
-  }
-  if (isActiveAltRight) {
-    document.getElementById('AltRight').classList.add('active');
-  }
-  if (isActiveShiftRight) {
-    document.getElementById('ShiftRight').classList.add('active');
+    if (ARRAY_RU.includes(e.key.toLowerCase()) || ARRAY_EN.includes(e.key.toLowerCase())) {
+      newSymbol = getCorrectSymbol(e);
+    }
+
+    if (newSymbol != '') {
+      let start = TEXT_AREA.selectionStart;
+      let end = TEXT_AREA.selectionEnd;
+      TEXT_AREA.setRangeText(newSymbol, start, end)
+      TEXT_AREA.focus();
+      TEXT_AREA.selectionStart = start + newSymbol.length;
+      TEXT_AREA.selectionEnd = end + newSymbol.length;
+    }
+
+    document.getElementById(e.code).classList.toggle('active');
+    if (isActiveCtrlLeft) {
+      document.getElementById('ControlLeft').classList.add('active');
+    }
+    if (isActiveAltLeft) {
+      document.getElementById('AltLeft').classList.add('active');
+    }
+    if (isActiveShiftLeft) {
+      document.getElementById('ShiftLeft').classList.add('active');
+    }
+    if (isActiveCmd) {
+      document.getElementById('MetaLeft').classList.add('active');
+    }
+    if (isActiveCaps) {
+      document.getElementById('CapsLock').classList.add('active');
+    }
+    if (isActiveAltRight) {
+      document.getElementById('AltRight').classList.add('active');
+    }
+    if (isActiveShiftRight) {
+      document.getElementById('ShiftRight').classList.add('active');
+    }
   }
 });
