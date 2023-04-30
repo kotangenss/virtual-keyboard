@@ -1,6 +1,5 @@
 import keys from '/keys.json' assert { type: 'json' };
-
-// Создание страницы
+import { setLocalStorage, getLocalStorage } from './modules/localStorage.js';
 
 let lang = 'ru';
 let isActiveCaps = false;
@@ -16,8 +15,13 @@ const ARRAY_OBJECTS = keys.flat();
 const ARRAY_RU = ['а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ь', 'ы', 'э', 'ю', 'я'];
 const ARRAY_EN = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-window.addEventListener('beforeunload', setLocalStorage);
-getLocalStorage()
+window.addEventListener('beforeunload', () => {
+  setLocalStorage(lang);
+});
+
+if (getLocalStorage) {
+  lang = getLocalStorage();
+}
 
 createPage();
 createKeyboard();
@@ -25,17 +29,6 @@ createKeyboard();
 document.body.focus();
 
 const TEXT_AREA = document.querySelector('textarea');
-
-// localStorage
-function setLocalStorage() {
-  localStorage.setItem('lang', lang);
-}
-
-function getLocalStorage() {
-  if (localStorage.getItem('lang')) {
-    lang = localStorage.getItem('lang');
-  }
-}
 
 function createPage() {
   const BODY = document.querySelector('body');
@@ -91,7 +84,7 @@ function createRowButtons(arrayButtons) {
     KEY.dataset.code = el.code;
     KEY.id = el.code;
 
-    //щелчки мышью по кнопкам виртуальной клавиатуры или нажатия кнопок на физической клавиатуре вводят символы в поле ввода (текстовое поле)
+    //щелчки мышью по кнопкам виртуальной клавиатуры вводят символы в поле ввода
     KEY.addEventListener('click', function () {
       let code = el.code;
       let newSymbol = '';
@@ -239,31 +232,33 @@ function createKeyboard() {
 }
 
 function changeKeyСharacteristics() {
-  [...document.querySelectorAll('.key')].forEach(el => {
-    if (el.textContent === 'Backspace') {
-      el.style.width = '170px';
-    } else if (el.textContent === 'Del') {
-      el.style.width = '93px';
-    } else if (el.textContent === 'CapsLock') {
-      el.style.width = '150px';
-    } else if (el.textContent === 'Enter') {
-      el.style.width = '170px';
-    } else if (el.textContent === 'Shift') {
-      el.style.width = '170px';
-    } else if (el.textContent === '') {
-      el.style.width = '510px';
-    } else if (el.textContent === 'Ctrl') {
-      el.style.width = '90px';
-    } else if (el.textContent === '⇧') {
-      el.style.fontSize = '20px';
-    } else if (el.textContent === '⇩') {
-      el.style.fontSize = '20px';
-    } else if (el.textContent === '⇦') {
-      el.style.fontSize = '20px';
-    } else if (el.textContent === '⇨') {
-      el.style.fontSize = '20px';
+  let arrayKeys = [...document.querySelectorAll('.key')];
+
+  for (let key of arrayKeys) {
+    if (key.textContent === 'Backspace') {
+      key.style.width = '170px';
+    } else if (key.textContent === 'Del') {
+      key.style.width = '93px';
+    } else if (key.textContent === 'CapsLock') {
+      key.style.width = '150px';
+    } else if (key.textContent === 'Enter') {
+      key.style.width = '170px';
+    } else if (key.textContent === 'Shift') {
+      key.style.width = '170px';
+    } else if (key.textContent === '') {
+      key.style.width = '510px';
+    } else if (key.textContent === 'Ctrl') {
+      key.style.width = '90px';
+    } else if (key.textContent === '⇧') {
+      key.style.fontSize = '20px';
+    } else if (key.textContent === '⇩') {
+      key.style.fontSize = '20px';
+    } else if (key.textContent === '⇦') {
+      key.style.fontSize = '20px';
+    } else if (key.textContent === '⇨') {
+      key.style.fontSize = '20px';
     }
-  })
+  }
 }
 
 // Изменение размера букв
