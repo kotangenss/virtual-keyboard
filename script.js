@@ -363,7 +363,7 @@ document.addEventListener('keydown', (e) => {
     TEXT_AREA.selectionEnd = end + newSymbol.length;
   }
 
-  document.getElementById(e.code).classList.add('active');
+  document.getElementById(e.code).classList.toggle('active');
   if (isActiveCtrlLeft) {
     document.getElementById('ControlLeft').classList.add('active');
   }
@@ -376,7 +376,9 @@ document.addEventListener('keydown', (e) => {
   if (isActiveCmd) {
     document.getElementById('MetaLeft').classList.add('active');
   }
-
+  if (isActiveCaps) {
+    document.getElementById('CapsLock').classList.add('active');
+  }
   if (isActiveAltRight) {
     document.getElementById('AltRight').classList.add('active');
   }
